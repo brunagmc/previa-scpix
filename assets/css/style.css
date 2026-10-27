@@ -162,7 +162,7 @@ em.destaque {
   .painel-link small { font-size: .875rem; color: var(--texto); }
   .ver-tudo { display: inline-flex; margin: 10px 12px 0; font-size: .875rem; font-weight: 600; text-decoration: none; }
   .painel-destaque { background: var(--verde-950); color: var(--texto-claro); border-radius: var(--raio-m); overflow: hidden; display: flex; flex-direction: column; }
-  .painel-destaque .foto-pendente { aspect-ratio: 3 / 2; border-radius: 0; }
+  .painel-destaque .foto-site { aspect-ratio: 3 / 2; border-radius: 0; }
   .painel-destaque div.texto { padding: 20px 22px 22px; }
   .painel-destaque .titulo { color: var(--branco); font-size: 1.25rem; font-weight: 600; margin: 0 0 6px; }
   .painel-destaque p { font-size: .9375rem; margin-bottom: 12px; }
@@ -214,7 +214,7 @@ em.destaque {
 .selos li { display: flex; align-items: center; gap: 10px; color: var(--branco); font-weight: 500; white-space: nowrap; }
 .selos .icone-s { color: var(--lima); }
 .hero-visual { position: relative; }
-.hero-visual .foto-pendente { aspect-ratio: 4 / 5; border-radius: var(--raio-l); }
+.hero-visual .foto-site { aspect-ratio: 4 / 5; border-radius: var(--raio-l); }
 .cartao-flutuante {
   position: absolute; left: -12px; bottom: 28px;
   background: var(--branco); color: var(--verde-950); border-radius: var(--raio-m);
@@ -228,15 +228,14 @@ em.destaque {
   .cartao-flutuante { left: -48px; }
 }
 
-/* ---------- Foto pendente (placeholder até chegarem as fotos reais) ---------- */
-.foto-pendente {
-  display: grid; place-items: center; text-align: center; padding: 24px;
-  background:
-    repeating-linear-gradient(135deg, rgba(13,124,80,.10) 0 12px, transparent 12px 24px),
-    linear-gradient(160deg, #0F5A3C, #063B26);
-  color: var(--lima); font-size: .875rem; font-weight: 500; line-height: 1.4; border-radius: var(--raio-m);
+/* ---------- Fotografias ---------- */
+.foto-site {
+  display: block; width: 100%; height: auto; object-fit: cover;
+  background: var(--verde-900); border-radius: var(--raio-m);
 }
-.claro .foto-pendente { background: repeating-linear-gradient(135deg, rgba(13,124,80,.08) 0 12px, transparent 12px 24px), #E7F3DA; color: var(--verde-900); }
+.foto-equipe { margin: 24px 0; }
+.foto-equipe .foto-site { aspect-ratio: 16 / 7; border-radius: var(--raio-l); }
+.foto-equipe figcaption { margin-top: 10px; color: var(--texto); font-size: .875rem; }
 
 /* ---------- Seções ---------- */
 .secao { padding: var(--secao) 0; }
@@ -267,7 +266,7 @@ em.destaque {
   border-radius: var(--raio-m); overflow: hidden; transition: transform var(--transicao), box-shadow var(--transicao), border-color var(--transicao);
 }
 .card:hover { transform: translateY(-4px); box-shadow: var(--sombra); border-color: transparent; }
-.card .foto-pendente { aspect-ratio: 16 / 10; border-radius: 0; }
+.card .foto-site { aspect-ratio: 16 / 10; border-radius: 0; }
 .card-corpo { display: flex; flex-direction: column; gap: 8px; padding: 22px; flex: 1; }
 .card-icone { display: grid; place-items: center; width: 48px; height: 48px; border-radius: 14px; background: var(--verde-50); color: var(--verde-700); margin-top: -46px; position: relative; border: 4px solid var(--branco); box-sizing: content-box; }
 .card h4 { font-size: 1.1875rem; margin: 4px 0 0; }
@@ -287,7 +286,7 @@ em.destaque {
 /* Seção dividida texto + imagem */
 .dividida { display: grid; gap: 48px; align-items: center; }
 @media (min-width: 1024px) { .dividida { grid-template-columns: 1fr 1fr; gap: 72px; } .dividida.invertida > :first-child { order: 2; } }
-.dividida .foto-pendente { aspect-ratio: 5 / 4; border-radius: var(--raio-l); }
+.dividida .foto-site { aspect-ratio: 5 / 4; border-radius: var(--raio-l); }
 .checklist { list-style: none; margin: 24px 0 32px; padding: 0; display: grid; gap: 14px; }
 .checklist li { display: flex; gap: 12px; align-items: flex-start; }
 .checklist .icone-s { color: var(--verde-700); margin-top: 4px; }
@@ -339,7 +338,7 @@ table.simulacao tbody tr:last-child > * { border-bottom: 0; }
 .faq details > div p:last-child { margin-bottom: 0; }
 
 /* Blog (3 cards) */
-.card-blog .foto-pendente { aspect-ratio: 16 / 9; }
+.card-blog .foto-site { aspect-ratio: 16 / 9; }
 .card-blog .categoria { font-size: .75rem; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--verde-700); }
 .card-blog h3 { font-size: 1.1875rem; margin: 0; }
 .card-blog h3 a { color: var(--verde-950); text-decoration: none; }
@@ -404,7 +403,7 @@ table.simulacao tbody tr:last-child > * { border-bottom: 0; }
 .hero-interna .lead { font-size: 1.1875rem; max-width: 62ch; color: var(--texto-claro); }
 .hero-interna .hero-acoes { margin-bottom: 0; }
 .hero-interna.com-visual .hero-grade { gap: 40px; }
-.hero-interna.com-visual .foto-pendente { aspect-ratio: 4 / 3; border-radius: var(--raio-l); }
+.hero-interna.com-visual .foto-site { aspect-ratio: 4 / 3; border-radius: var(--raio-l); }
 @media (min-width: 1024px) { .hero-interna.com-visual .hero-grade { grid-template-columns: 1.15fr .85fr; } }
 
 .breadcrumb { font-size: .875rem; margin-bottom: 28px; }
@@ -455,14 +454,14 @@ table.simulacao tbody tr:last-child > * { border-bottom: 0; }
 .lista-artigos { display: grid; gap: 16px; list-style: none; margin: 0; padding: 0; }
 .item-artigo { display: grid; grid-template-columns: 1fr; gap: 0; background: var(--branco); border: 1px solid var(--borda); border-radius: var(--raio-m); overflow: hidden; transition: box-shadow var(--transicao), transform var(--transicao); }
 .item-artigo:hover { box-shadow: var(--sombra); transform: translateY(-2px); }
-.item-artigo .foto-pendente { aspect-ratio: 16 / 9; border-radius: 0; }
+.item-artigo .foto-site { aspect-ratio: 16 / 9; border-radius: 0; }
 .item-artigo .card-corpo { padding: 22px 24px; }
 .item-artigo h3 { font-size: 1.25rem; margin: 2px 0 6px; }
 .item-artigo h3 a { color: var(--verde-950); text-decoration: none; }
 .item-artigo h3 a:hover { color: var(--verde-700); }
 .item-artigo p { margin: 0; }
 .item-artigo .categoria { font-size: .75rem; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--verde-700); }
-@media (min-width: 720px) { .item-artigo { grid-template-columns: 260px 1fr; } .item-artigo .foto-pendente { aspect-ratio: auto; height: 100%; min-height: 170px; } }
+@media (min-width: 720px) { .item-artigo { grid-template-columns: 260px 1fr; } .item-artigo .foto-site { aspect-ratio: auto; height: 100%; min-height: 170px; } }
 .filtros-blog { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 32px; }
 .filtros-blog a { display: inline-flex; align-items: center; min-height: 44px; padding: 0 18px; border-radius: 999px; border: 1px solid var(--borda); color: var(--verde-950); text-decoration: none; font-weight: 500; background: var(--branco); }
 .filtros-blog a:hover { border-color: var(--verde-700); }
