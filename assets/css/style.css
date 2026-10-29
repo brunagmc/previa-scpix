@@ -548,3 +548,14 @@ table.simulacao th, table.simulacao td { padding: 14px 16px; }
 .calc-linha.destaque-resultado strong { font-size: 1.5rem; color: var(--verde-700); }
 .calc-enviar { width: 100%; }
 .calc-nota { margin: 0; }
+
+/* Tabela de preços: cabeçalho pode quebrar linha e a coluna do total fica separada das parcelas */
+table.simulacao thead th { white-space: normal; vertical-align: bottom; line-height: 1.35; }
+table.simulacao th:last-child, table.simulacao td:last-child { background: var(--verde-50); border-left: 1px solid #D5EBC0; }
+table.simulacao td:last-child { font-weight: 600; color: var(--verde-950); }
+table.simulacao thead th:last-child { color: var(--verde-950); min-width: 120px; }
+
+/* Conteúdo em grade não pode ser alargado pela tabela: a rolagem fica só dentro da tabela */
+.layout-conteudo > *, .prosa, .dividida > * { min-width: 0; }
+.dica-rolar { display: none; font-size: .8125rem; color: var(--texto); margin: 8px 0 0; }
+@media (max-width: 719px) { .dica-rolar { display: block; } }
