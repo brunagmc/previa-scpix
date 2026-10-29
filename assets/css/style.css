@@ -518,3 +518,7 @@ table.simulacao tbody tr:last-child > * { border-bottom: 0; }
 .popup-agora-nao { background: none; border: 0; color: var(--texto); font: 500 .9375rem var(--fonte); min-height: 44px; cursor: pointer; text-decoration: underline; text-underline-offset: 3px; margin-top: 6px; }
 .popup-fechar { position: absolute; top: 14px; right: 14px; z-index: 2; display: grid; place-items: center; width: 44px; height: 44px; border-radius: 12px; border: 1px solid var(--borda-escura); background: rgba(255,255,255,.06); color: var(--branco); cursor: pointer; }
 @media (prefers-reduced-motion: reduce) { .popup-saida[open] { animation: none; } }
+
+/* Tabela de preços: valores sempre numa linha só */
+table.simulacao td, table.simulacao tbody th { white-space: nowrap; font-variant-numeric: tabular-nums; }
+table.simulacao th, table.simulacao td { padding: 14px 16px; }
