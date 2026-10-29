@@ -121,3 +121,58 @@
     }, { passive: true });
   }
 })();
+
+/* ---- Calculadora de simulação ----
+   Usa só as taxas finais para o cliente (geradas por scripts/precos.py no build).
+   "Quero receber X": passa = X / (1 - taxa). "Vou passar X": recebe = X * (1 - taxa).
+   Faixa de taxa decidida pelo valor recebido (até o limite ou acima). */
+(function () {
+  "use strict";
+  var caixa = document.getElementById("calculadora");
+  if (!caixa) return;
+  var dados = JSON.parse(document.getElementById("calculadora-taxas").textContent);
+  var form = caixa.querySelector(".calc-form");
+  var campoValor = document.getElementById("calc-valor");
+  var campoParcelas = document.getElementById("calc-parcelas");
+  var brl = function (v) { return v.toLocaleString("pt-BR", { style: "currency", currency: "BRL" }); };
+  var numero = function (txt) { var d = String(txt).replace(/\D/g, ""); return d ? parseInt(d, 10) : 0; };
+
+  function taxa(band, n, recebe) {
+    return dados[band][recebe <= dados.limite ? "ate" : "acima"][n - 1] / 100;
+  }
+  function calcular() {
+    var modo = form.modo.value, band = form.bandeira.value, n = parseInt(campoParcelas.value, 10);
+    var valor = numero(campoValor.value);
+    document.getElementById("calc-parcelas-valor").textContent = n + "x";
+    document.getElementById("calc-valor-rotulo").textContent = modo === "receber" ? "Quanto você quer receber na conta" : "Quanto você vai passar no cartão";
+    var recebe, passa;
+    if (modo === "receber") {
+      recebe = valor;
+      passa = recebe / (1 - taxa(band, n, recebe));
+    } else {
+      passa = valor;
+      recebe = passa * (1 - taxa(band, n, 0));            /* testa a faixa "até o limite" */
+      if (recebe > dados.limite) recebe = passa * (1 - taxa(band, n, dados.limite + 1));
+    }
+    var parcela = passa / n;
+    var r1 = document.getElementById("calc-r1"), r3 = document.getElementById("calc-r3");
+    document.getElementById("calc-r1-rotulo").textContent = modo === "receber" ? "Passa no cartão" : "Você recebe via Pix";
+    document.getElementById("calc-r3-rotulo").textContent = modo === "receber" ? "Você recebe via Pix" : "Passa no cartão";
+    if (!valor) { r1.textContent = "—"; r3.textContent = "—"; document.getElementById("calc-r2").textContent = "—"; return; }
+    r1.textContent = brl(modo === "receber" ? passa : recebe);
+    r3.textContent = brl(modo === "receber" ? recebe : passa);
+    document.getElementById("calc-r2").textContent = n + "x de " + brl(parcela);
+    var nomeBand = band === "visa" ? "Visa/Mastercard" : "Elo/Hipercard";
+    var msg = "Olá, SCPix! Fiz a simulação no site: receber " + brl(recebe) + ", passando " + brl(passa) +
+      " em " + n + "x de " + brl(parcela) + " (" + nomeBand + "). Quero agendar o atendimento.";
+    document.getElementById("calc-enviar").href = caixa.getAttribute("data-whats") + encodeURIComponent(msg);
+  }
+  campoValor.addEventListener("input", function () {
+    var v = numero(campoValor.value);
+    campoValor.value = v ? v.toLocaleString("pt-BR") : "";
+    calcular();
+  });
+  form.addEventListener("change", calcular);
+  campoParcelas.addEventListener("input", calcular);
+  calcular();
+})();

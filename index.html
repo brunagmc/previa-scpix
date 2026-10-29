@@ -407,13 +407,46 @@
 <!-- ===================== SIMULAÇÃO ===================== -->
 <section class="secao claro" aria-labelledby="titulo-simulacao">
   <div class="container dividida invertida">
-    <div class="tabela-envolve"><table class="simulacao"><caption>Exemplos com cartão Visa ou Mastercard, em até 18x</caption><thead><tr><th scope="col">Você recebe</th><th scope="col">6x de</th><th scope="col">12x de</th><th scope="col">Total no cartão em 12x</th></tr></thead><tbody><tr><th scope="row">R$ 500,00</th><td>R$ 98,92</td><td>R$ 52,41</td><td>R$ 628,93</td></tr><tr><th scope="row">R$ 1.000,00</th><td>R$ 197,85</td><td>R$ 104,82</td><td>R$ 1.257,86</td></tr><tr><th scope="row">R$ 2.000,00</th><td>R$ 395,69</td><td>R$ 209,64</td><td>R$ 2.515,72</td></tr><tr><th scope="row">R$ 5.000,00</th><td>R$ 966,30</td><td>R$ 511,25</td><td>R$ 6.134,97</td></tr></tbody></table></div><p class="nota">Valores de referência para cartões Visa e Mastercard. Para Elo e Hipercard a taxa muda um pouco: peça a sua simulação. O total no cartão é o valor parcelado na sua fatura.</p>
+    <div class="calculadora" id="calculadora" data-whats="https://wa.me/?text=">
+  <script type="application/json" id="calculadora-taxas">{"limite":3000,"max":18,"visa":{"ate":[12.49,13.4,13.99,14.58,15.17,15.76,16.64,17.23,17.82,18.41,19.0,20.5,20.18,20.77,21.16,22.15,22.54,23.63],"acima":[10.49,11.4,11.99,12.58,13.17,13.76,14.64,15.23,15.82,16.41,17.0,18.5,18.18,18.77,19.16,20.15,20.54,21.63]},"elo":{"ate":[12.87,13.7,14.29,14.88,15.47,16.06,16.94,17.53,18.12,18.71,19.3,19.89,20.48,21.07,21.66,22.25,22.84,24.13],"acima":[10.87,11.7,12.29,12.88,13.47,14.06,14.94,15.53,16.12,16.71,17.3,17.89,18.48,19.07,19.66,20.25,20.84,22.13]}}</script>
+  <p class="calc-titulo"><svg class="icone" aria-hidden="true" focusable="false" fill="currentColor"><use href="#i-calculator"/></svg> Calculadora de simulação</p>
+  <form class="calc-form" novalidate onsubmit="return false">
+    <fieldset class="calc-opcoes">
+      <legend>O que você quer saber?</legend>
+      <label><input type="radio" name="modo" value="receber" checked> <span>Quero receber</span></label>
+      <label><input type="radio" name="modo" value="passar"> <span>Vou passar no cartão</span></label>
+    </fieldset>
+    <div class="campo">
+      <label for="calc-valor" id="calc-valor-rotulo">Quanto você quer receber na conta</label>
+      <div class="calc-moeda"><span aria-hidden="true">R$</span><input id="calc-valor" name="valor" type="text" inputmode="numeric" autocomplete="off" value="1.000"></div>
+    </div>
+    <div class="campo">
+      <label for="calc-parcelas">Em quantas vezes: <strong id="calc-parcelas-valor">12x</strong></label>
+      <input id="calc-parcelas" name="parcelas" type="range" min="1" max="18" step="1" value="12">
+      <div class="calc-escala" aria-hidden="true"><span>1x</span><span>6x</span><span>12x</span><span>18x</span></div>
+    </div>
+    <fieldset class="calc-opcoes">
+      <legend>Bandeira do cartão</legend>
+      <label><input type="radio" name="bandeira" value="visa" checked> <span>Visa ou Mastercard</span></label>
+      <label><input type="radio" name="bandeira" value="elo"> <span>Elo ou Hipercard</span></label>
+    </fieldset>
+  </form>
+  <div class="calc-resultado" aria-live="polite">
+    <div class="calc-linha destaque-resultado"><span id="calc-r1-rotulo">Passa no cartão</span><strong id="calc-r1">—</strong></div>
+    <div class="calc-linha"><span>Parcelas na fatura</span><strong id="calc-r2">—</strong></div>
+    <div class="calc-linha"><span id="calc-r3-rotulo">Você recebe via Pix</span><strong id="calc-r3">—</strong></div>
+  </div>
+  <a class="botao botao-primario calc-enviar" id="calc-enviar" href="https://wa.me/?text="><svg class="icone-s" aria-hidden="true" focusable="false" fill="currentColor"><use href="#i-whatsapp-logo"/></svg> Enviar esta simulação pelo WhatsApp</a>
+  <p class="nota calc-nota">Valores de referência. O valor final é confirmado no atendimento, e o Pix cai na hora, na sua frente.</p>
+  <noscript><p class="nota">Ative o JavaScript para usar a calculadora ou peça sua simulação pelo WhatsApp.</p></noscript>
+</div>
+
     <div>
       <p class="rotulo">Quanto fica</p>
       <h2 id="titulo-simulacao">Saiba a parcela <em class="destaque">antes</em> de fechar</h2>
-      <p>Quem precisa de dinheiro quer saber primeiro quanto vai pagar por mês. Na SCPix você vê a parcela e o total antes de qualquer decisão, sem compromisso.</p>
+      <p>Quem precisa de dinheiro quer saber primeiro quanto vai pagar por mês. Use a calculadora: escolha o valor, as parcelas e a bandeira e veja na hora quanto passa no cartão e quanto você recebe.</p>
       <p class="nota">A simulação chega por escrito no seu WhatsApp, com a parcela e o total.</p>
-      <a class="botao botao-primario" href="/previa-scpix/limite-do-cartao/simulacao/">Ver a minha parcela antes de decidir</a>
+      <a class="botao botao-secundario" href="/previa-scpix/limite-do-cartao/simulacao/">Ver a tabela completa de parcelas</a>
     </div>
   </div>
 </section>
