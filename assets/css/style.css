@@ -171,7 +171,8 @@ em.destaque {
   .painel-faixa span, .painel-faixa a { display: inline-flex; align-items: center; gap: 8px; color: var(--verde-950); text-decoration: none; }
   .painel-faixa .icone-s { color: var(--verde-700); }
   .painel-cidades .painel-grade { grid-template-columns: 1fr 1fr 360px; }
-  .painel-coluna ul.lista-cidades { display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: repeat(6, auto); grid-auto-flow: column; column-gap: 24px; row-gap: 2px; }
+  .painel-coluna ul.lista-cidades { display: grid; grid-template-columns: 1fr 1fr; column-gap: 24px; row-gap: 2px; }
+  .painel-coluna ul.lista-cidades .sede { grid-column: 1 / -1; }
   .lista-cidades a { display: flex; align-items: center; gap: 10px; min-height: 44px; padding: 0 12px; border-radius: var(--raio-s); color: var(--verde-950); text-decoration: none; }
   .lista-cidades a:hover { background: var(--verde-50); }
   .lista-cidades .icone-s { color: var(--verde-700); }
@@ -312,6 +313,7 @@ table.simulacao tbody tr:last-child > * { border-bottom: 0; }
 }
 .grade-cidades a:hover { border-color: var(--verde-700); transform: translateY(-2px); }
 .grade-cidades .icone-s { color: var(--verde-700); }
+.grade-cidades .sede { grid-column: 1 / -1; }
 .grade-cidades .sede a { background: var(--verde-950); color: var(--branco); border-color: var(--verde-950); }
 .grade-cidades .sede .icone-s { color: var(--laranja); }
 .grade-cidades small { display: block; font-size: .75rem; font-weight: 400; color: inherit; opacity: .75; }
