@@ -176,3 +176,108 @@
   campoParcelas.addEventListener("input", calcular);
   calcular();
 })();
+
+/* ---- Thassia: chat do site ----
+   Manda a conversa para o servidor da Thassia (data-api) e mostra a resposta.
+   Quando a resposta traz uma mensagem de WhatsApp, vira um botão que abre a conversa com o resumo pronto.
+   A conversa fica só nesta aba (sessionStorage). data-api="teste" responde sem servidor, para conferir o visual. */
+(function () {
+  "use strict";
+  var raiz = document.querySelector(".thassia");
+  if (!raiz) return;
+  var api = raiz.getAttribute("data-api"), whats = raiz.getAttribute("data-whats");
+  var botao = raiz.querySelector(".thassia-abrir"), painel = raiz.querySelector(".thassia-painel");
+  var lista = raiz.querySelector(".thassia-mensagens"), form = raiz.querySelector(".thassia-form");
+  var campo = form.querySelector("textarea"), mandar = form.querySelector("button");
+  var MAX = 24, CHAVE = "scpix-thassia";
+  var historico = [], whatsFinal = {};
+
+  function guardar() { try { sessionStorage.setItem(CHAVE, JSON.stringify({ h: historico, w: whatsFinal })); } catch (e) {} }
+  function rolar() { lista.scrollTop = lista.scrollHeight; }
+  function balao(texto, quem) {
+    var div = document.createElement("div");
+    div.className = "thassia-msg thassia-" + quem;
+    texto.split(/\n{2,}/).forEach(function (bloco) {
+      var p = document.createElement("p");
+      p.textContent = bloco.trim();
+      div.appendChild(p);
+    });
+    lista.appendChild(div);
+    rolar();
+    return div;
+  }
+  function botaoWhats(msg) {
+    var a = document.createElement("a");
+    a.className = "botao botao-primario thassia-whats";
+    a.href = whats + encodeURIComponent(msg);
+    a.textContent = "Combinar o atendimento pelo WhatsApp";
+    lista.appendChild(a);
+    rolar();
+  }
+  function abrir(sim) {
+    painel.hidden = !sim;
+    botao.setAttribute("aria-expanded", sim ? "true" : "false");
+    if (sim) { rolar(); campo.focus(); } else { botao.focus(); }
+  }
+  botao.addEventListener("click", function () { abrir(painel.hidden); });
+  raiz.querySelector(".thassia-fechar").addEventListener("click", function () { abrir(false); });
+  painel.addEventListener("keydown", function (e) { if (e.key === "Escape") abrir(false); });
+
+  try {
+    var salvo = JSON.parse(sessionStorage.getItem(CHAVE) || "null");
+    if (salvo && Array.isArray(salvo.h)) {
+      historico = salvo.h; whatsFinal = salvo.w || {};
+      historico.forEach(function (m, i) {
+        balao(m.content, m.role === "user" ? "sua" : "dela");
+        if (whatsFinal[i]) botaoWhats(whatsFinal[i]);
+      });
+    }
+  } catch (e) {}
+
+  function perguntar(msgs) {
+    if (api === "teste") {
+      return new Promise(function (ok) {
+        setTimeout(function () {
+          ok({ texto: "Modo de teste: aqui aparece a resposta da Thassia quando o servidor estiver ligado.",
+               whatsapp: "Olá, SCPix! Quero simular dinheiro no limite do cartão." });
+        }, 700);
+      });
+    }
+    return fetch(api, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ messages: msgs }) })
+      .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); });
+  }
+
+  campo.addEventListener("keydown", function (e) {
+    if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); form.requestSubmit(); }
+  });
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
+    var texto = campo.value.trim();
+    if (!texto || mandar.disabled) return;
+    if (historico.length >= MAX - 1) {
+      balao("Para seguir com a sua simulação, fale com a nossa equipe pelo WhatsApp.", "dela");
+      botaoWhats("Olá, SCPix! Conversei com a Thassia no site e quero combinar o atendimento.");
+      return;
+    }
+    campo.value = "";
+    balao(texto, "sua");
+    historico.push({ role: "user", content: texto });
+    guardar();
+    mandar.disabled = true;
+    var aguarde = balao("Thassia está escrevendo", "dela");
+    aguarde.classList.add("thassia-digitando");
+    perguntar(historico).then(function (r) {
+      aguarde.remove();
+      historico.push({ role: "assistant", content: r.texto });
+      balao(r.texto, "dela");
+      if (r.whatsapp) { whatsFinal[historico.length - 1] = r.whatsapp; botaoWhats(r.whatsapp); }
+      guardar();
+    }).catch(function () {
+      aguarde.remove();
+      historico.pop();
+      guardar();
+      balao("Não consegui responder agora. Pelo WhatsApp a nossa equipe responde você.", "dela");
+      botaoWhats("Olá, SCPix! " + texto);
+    }).then(function () { mandar.disabled = false; campo.focus(); });
+  });
+})();
